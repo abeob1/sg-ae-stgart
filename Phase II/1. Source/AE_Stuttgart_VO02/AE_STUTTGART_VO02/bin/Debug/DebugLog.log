@@ -500,3 +500,9 @@
 [09-23-2015 10:42:23][                        Main()] Starting function
 [09-23-2015 10:42:23][                        Main()] Calling GetSystemIntializeInfo()
 [09-23-2015 10:42:23][      GetSystemIntializeInfo()] Starting Function
+[09-29-2015 10:18:00][                        Main()] Starting function
+[09-29-2015 10:18:00][                        Main()] Calling GetSystemIntializeInfo()
+[09-29-2015 10:18:00][      GetSystemIntializeInfo()] Starting Function
+[09-29-2015 10:24:18][                        Main()] Starting function
+[09-29-2015 10:24:18][                        Main()] Calling GetSystemIntializeInfo()
+[09-29-2015 10:24:18][      GetSystemIntializeInfo()] Starting Function

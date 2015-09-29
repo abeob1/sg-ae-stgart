@@ -48,7 +48,7 @@
             '************ITEM MASTER SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("Item Master sync Starts", sFuncName)
             sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster(ItemCode,ItemName,FrgnName,EASIGroup,EASIDept,ProductType,SalesUnitMsr,Barcode,Active,ServiceCharge,GST,AllowDiscount,AllowZero,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T1.U_ACGroup,T0.ItmsGrpCod, NULL [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.validFor,"
+            sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T1.U_ACGroup,T0.ItmsGrpCod, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.validFor,"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
@@ -71,12 +71,12 @@
             Console.WriteLine("Update Item Master Datas", sFuncName)
             sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster"
             sQuery = sQuery & " SET ItemName = T1.ItemName,FrgnName = T1.U_POSDesc,EASIGroup = T1.U_ACGroup, "
-            sQuery = sQuery & " EASIDept = T1.ItmsGrpCod,SalesUnitMsr = T1.SalUnitMsr, Barcode = T1.CodeBars, "
+            sQuery = sQuery & " EASIDept = T1.ItmsGrpCod,ProductType = T1.ProductType,SalesUnitMsr = T1.SalUnitMsr, Barcode = T1.CodeBars, "
             sQuery = sQuery & " Active = T1.ValidFor,ServiceCharge = T1.U_POSNoService,GST = T1.U_POSNoGst, "
             sQuery = sQuery & " AllowDiscount = T1.U_POSNonDisc,AllowZero = T1.U_POSZeroPrice, "
             sQuery = sQuery & " SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE() "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster T0"
-            sQuery = sQuery & " INNER JOIN (SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T1.U_ACGroup,T0.ItmsGrpCod,T0.SalUnitMsr,T0.CodeBars,T0.ValidFor,"
+            sQuery = sQuery & " INNER JOIN (SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T1.U_ACGroup,T0.ItmsGrpCod, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.ValidFor,"
             sQuery = sQuery & " 		    CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
