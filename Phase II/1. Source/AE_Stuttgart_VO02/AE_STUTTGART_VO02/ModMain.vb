@@ -48,7 +48,7 @@
             '************ITEM MASTER SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("Item Master sync Starts", sFuncName)
             sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster(ItemCode,ItemName,FrgnName,EASIGroup,EASIDept,ProductType,SalesUnitMsr,Barcode,Active,ServiceCharge,GST,AllowDiscount,AllowZero,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T1.U_ACGroup,T0.ItmsGrpCod, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.validFor,"
+            sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T0.ItmsGrpCod,T0.U_AB_EASIDept, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.validFor,"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
@@ -70,13 +70,13 @@
             '************ITEM MASTER UPDATE CODE**************************
             Console.WriteLine("Update Item Master Datas", sFuncName)
             sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster"
-            sQuery = sQuery & " SET ItemName = T1.ItemName,FrgnName = T1.U_POSDesc,EASIGroup = T1.U_ACGroup, "
-            sQuery = sQuery & " EASIDept = T1.ItmsGrpCod,ProductType = T1.ProductType,SalesUnitMsr = T1.SalUnitMsr, Barcode = T1.CodeBars, "
+            sQuery = sQuery & " SET ItemName = T1.ItemName,FrgnName = T1.U_POSDesc,EASIGroup = T1.ItmsGrpCod, "
+            sQuery = sQuery & " EASIDept = T1.U_AB_EASIDept,ProductType = T1.ProductType,SalesUnitMsr = T1.SalUnitMsr, Barcode = T1.CodeBars, "
             sQuery = sQuery & " Active = T1.ValidFor,ServiceCharge = T1.U_POSNoService,GST = T1.U_POSNoGst, "
             sQuery = sQuery & " AllowDiscount = T1.U_POSNonDisc,AllowZero = T1.U_POSZeroPrice, "
             sQuery = sQuery & " SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE() "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster T0"
-            sQuery = sQuery & " INNER JOIN (SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T1.U_ACGroup,T0.ItmsGrpCod, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.ValidFor,"
+            sQuery = sQuery & " INNER JOIN (SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T0.ItmsGrpCod,T0.U_AB_EASIDept, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.ValidFor,"
             sQuery = sQuery & " 		    CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
@@ -111,10 +111,11 @@
 
             '************EASI DEPARTMENT SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("EASI Department Sync starts", sFuncName)
-            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment(Code,Name,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT ItmsGrpCod,ItmsGrpNam,DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), 0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
-            sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OITB T0 "
-            sQuery = sQuery & " WHERE T0.ItmsGrpCod NOT IN (SELECT Code FROM  [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment) "
+            sQuery = "DELETE FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment"
+            sQuery = sQuery & " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment(Code,Name,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = sQuery & " SELECT Code,Name,DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), 0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
+            sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.[@AB_EASIDEPT] T0 "
+            sQuery = sQuery & " WHERE T0.Code NOT IN (SELECT Code FROM  [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment) "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Item Group Sync Query Exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
@@ -125,11 +126,27 @@
                 Console.WriteLine("EASI Department synchronization completed Successfully", sFuncName)
             End If
 
-            '**********UPDATE EASI DEPARTMENT CODE******************
-            Console.WriteLine("Update EASI Department starts", sFuncName)
-            sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment "
+            '******************************EASI GROUP SYNC CODE ON 23/09/2015*****************
+            Console.WriteLine("EASI Group Sync starts", sFuncName)
+            sQuery = " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIGroup(Code,Name,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = sQuery & " SELECT T0.ItmsGrpCod,T0.ItmsGrpNam,DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), 0) [SAPSyncDate],GETDATE() [SAPSyncDateTime]"
+            sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OITB T0 "
+            sQuery = sQuery & " WHERE T0.ItmsGrpCod NOT IN (SELECT Code FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIGROUP)"
+
+            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("EASI Group Sync Query Exec " & sQuery, sFuncName)
+            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
+
+            If ExecuteSQLQuery_DT(P_sConString, sQuery, sErrDesc) <> RTN_SUCCESS Then
+                Console.WriteLine("Error while synchoronizing EASI Group", sFuncName)
+            Else
+                Console.WriteLine("EASI Group synchronization completed Successfully", sFuncName)
+            End If
+
+            '**********UPDATE EASI Group CODE******************
+            Console.WriteLine("Update EASI Group starts", sFuncName)
+            sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIGroup "
             sQuery = sQuery & " SET Code = T1.ItmsGrpCod,Name = T1.ItmsGrpNam,SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE()"
-            sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment T0"
+            sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIGroup T0"
             sQuery = sQuery & " INNER JOIN (SELECT T0.ItmsGrpCod,T0.ItmsGrpNam"
             sQuery = sQuery & " 			FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OITB T0"
             sQuery = sQuery & " 			WHERE T0.UpdateDate >= DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),- " & p_oCompDef.p_iIntegDays & ")"
@@ -139,25 +156,9 @@
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
 
             If ExecuteSQLQuery_DT(P_sConString, sQuery, sErrDesc) <> RTN_SUCCESS Then
-                Console.WriteLine("Error while updating EASI Department", sFuncName)
+                Console.WriteLine("Error while updating EASI Group", sFuncName)
             Else
-                Console.WriteLine("EASI Department update Successful", sFuncName)
-            End If
-
-            '******************************EASI GROUP SYNC CODE ON 23/09/2015*****************
-            Console.WriteLine("EASI Group Sync starts", sFuncName)
-            sQuery = "DELETE FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIGroup"
-            sQuery = sQuery & " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIGroup(Code,Name,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT Code,Name,DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), 0) [SAPSyncDate],GETDATE() [SAPSyncDateTime]"
-            sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.[@AB_EASIGroup] T0 "
-
-            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("EASI Group Sync Query Exec " & sQuery, sFuncName)
-            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
-
-            If ExecuteSQLQuery_DT(P_sConString, sQuery, sErrDesc) <> RTN_SUCCESS Then
-                Console.WriteLine("Error while synchoronizing EASI Group", sFuncName)
-            Else
-                Console.WriteLine("EASI Group synchronization completed Successfully", sFuncName)
+                Console.WriteLine("EASI Group update Successful", sFuncName)
             End If
 
             '************PRICE LIST SYNC CODE ON 16/09/2015 STARTS**************************
