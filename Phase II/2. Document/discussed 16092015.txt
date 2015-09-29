@@ -1,0 +1,10 @@
+D : base is sales order get it from the int header tabe
+    Downpayment (Zero taxcode all items)  - incoming payment
+
+
+S & deposite no is not null
+    get the line items from INT DB append it to sales order metioned in
+    header table and convert to AR invoice (check whether downpayment is linked ?)
+    Incoming PAyments
+    
+    
