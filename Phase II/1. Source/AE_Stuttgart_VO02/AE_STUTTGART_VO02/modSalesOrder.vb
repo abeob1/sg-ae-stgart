@@ -15,6 +15,8 @@
         Dim oDT_INTItemDetails_Final As New DataTable
         Dim iLineNo As Integer = 0
 
+        '' this is a change
+
         oSalesOrder = oDICompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oOrders)
         Try
             sFuncName = "Salesorder()"
