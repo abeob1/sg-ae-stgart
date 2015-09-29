@@ -1,0 +1,30 @@
+[09-21-2015 08:10:00][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:10:08][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:15:26][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:15:26][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:16:53][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:17:16][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:17:51][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:17:51][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:21:10][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:21:10][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:22:00][          AR_InvoiceCreation()] Invalid value  [INV1.BaseLine][line: 1]  [الرسالة 439-173]
+[09-21-2015 08:22:00][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:25:22][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:25:22][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:26:57][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
+[09-21-2015 08:26:57][          AR_InvoiceCreation()] External component has thrown an exception.
+[09-21-2015 08:26:57][     MarketingDocuments_Sync()] Object reference not set to an instance of an object.
+[09-21-2015 08:27:43][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:27:43][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:28:44][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
+[09-21-2015 08:30:20][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:30:20][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:32:39][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
+[09-21-2015 08:37:45][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
+[09-21-2015 08:37:45][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
+[09-21-2015 08:41:23][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
+[09-21-2015 08:55:38][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
+[09-21-2015 10:43:51][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
+[09-21-2015 10:45:20][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
+[09-21-2015 14:25:19][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
