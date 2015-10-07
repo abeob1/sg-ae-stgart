@@ -47,12 +47,13 @@
             '************MASTER DATA SYNC CODE ON 16/09/2015 STARTS**************************
             '************ITEM MASTER SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("Item Master sync Starts", sFuncName)
-            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster(ItemCode,ItemName,FrgnName,EASIGroup,EASIDept,ProductType,SalesUnitMsr,Barcode,Active,ServiceCharge,GST,AllowDiscount,AllowZero,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster(ItemCode,ItemName,FrgnName,EASIGroup,EASIDept,ProductType,SalesUnitMsr,Barcode,Active,ServiceCharge,GST,AllowDiscount,AllowZero,POSPrinter,POSSync,SAPSyncDate,SAPSyncDateTime)"
             sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T0.ItmsGrpCod,T0.U_AB_EASIDept, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.validFor,"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSZeroPrice,'FALSE') = 'FALSE' THEN 0 ELSE 1 END  [U_POSZeroPrice],"
+            sQuery = sQuery & " T0.U_POSPrinterName,T0.U_AB_POSSync,"
             sQuery = sQuery & " DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), 0) [SAPSyncDate],GETDATE() [SAPSyncDateTime]"
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OITM T0 "
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITB T1 ON T1.ItmsGrpCod = T0.ItmsGrpCod "
@@ -73,14 +74,14 @@
             sQuery = sQuery & " SET ItemName = T1.ItemName,FrgnName = T1.U_POSDesc,EASIGroup = T1.ItmsGrpCod, "
             sQuery = sQuery & " EASIDept = T1.U_AB_EASIDept,ProductType = T1.ProductType,SalesUnitMsr = T1.SalUnitMsr, Barcode = T1.CodeBars, "
             sQuery = sQuery & " Active = T1.ValidFor,ServiceCharge = T1.U_POSNoService,GST = T1.U_POSNoGst, "
-            sQuery = sQuery & " AllowDiscount = T1.U_POSNonDisc,AllowZero = T1.U_POSZeroPrice, "
+            sQuery = sQuery & " AllowDiscount = T1.U_POSNonDisc,AllowZero = T1.U_POSZeroPrice, POSPrinter = T1.U_POSPrinterName,POSSync = T1.U_AB_POSSync, "
             sQuery = sQuery & " SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE() "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster T0"
             sQuery = sQuery & " INNER JOIN (SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T0.ItmsGrpCod,T0.U_AB_EASIDept, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.ValidFor,"
             sQuery = sQuery & " 		    CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
-            sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSZeroPrice,'FALSE') = 'FALSE' THEN 0 ELSE 1 END  [U_POSZeroPrice] "
+            sQuery = sQuery & " 			CASE WHEN ISNULL(T0.U_POSZeroPrice,'FALSE') = 'FALSE' THEN 0 ELSE 1 END  [U_POSZeroPrice],T0.U_POSPrinterName,T0.U_AB_POSSync "
             sQuery = sQuery & " 			FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OITM T0"
             sQuery = sQuery & " 			INNER JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITB T1 ON T1.ItmsGrpCod = T0.ItmsGrpCod"
             sQuery = sQuery & " 			WHERE T0.UpdateDate >= DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),- " & p_oCompDef.p_iIntegDays & ")"
@@ -163,8 +164,8 @@
 
             '************PRICE LIST SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("Price List sync starts", sFuncName)
-            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList(ItemCode,PriceList,PriceListName,Currency,Price,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT T0.ItemCode,T2.ListNum,T2.ListName ,T1.Currency,  "
+            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList(WhsCode,ItemCode,PriceList,PriceListName,Currency,Price,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = sQuery & " SELECT T4.WhsCode,T0.ItemCode,T2.ListNum,T2.ListName ,T1.Currency,  "
             sQuery = sQuery & " CASE WHEN T0.UgpEntry = -1 THEN T1.Price "
             sQuery = sQuery & "      WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.Price "
             sQuery = sQuery & "      ELSE T3.Price END [Price],"
@@ -173,6 +174,7 @@
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM1 T1 ON T0.ItemCode = T1.ItemCode AND T1.PriceList = 1 "
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM9 T3 ON T0.ItemCode = T3.ItemCode AND T3.PriceList = 1 AND T0.SUoMEntry = T3.UomEntry "
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T2 ON T2.ListNum = T1.PriceList "
+            sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T4 ON T4.ItemCode = T0.ItemCode "
             sQuery = sQuery & " WHERE T0.ItemCode NOT IN (SELECT ItemCode FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList) "
             sQuery = sQuery & " AND (T1.PriceList = 1 OR T3.PriceList = 1) "
 
@@ -188,10 +190,10 @@
             '***********PRICE LIST UPDATE*******************
             Console.WriteLine("Update Price list starts", sFuncName)
             sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList"
-            sQuery = sQuery & " SET PriceListName = T1.ListName,Currency = T1.Currency,Price = T1.Price, "
+            sQuery = sQuery & " SET PriceListName = T1.ListName,Currency = T1.Currency,Price = T1.Price,WhsCode = T1.WhsCode , "
             sQuery = sQuery & " SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE() "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList T0"
-            sQuery = sQuery & " INNER JOIN (SELECT T0.ItemCode,T2.ListNum,T2.ListName ,T1.Currency,"
+            sQuery = sQuery & " INNER JOIN (SELECT T4.WhsCode,T0.ItemCode,T2.ListNum,T2.ListName ,T1.Currency,"
             sQuery = sQuery & " 			CASE WHEN T0.UgpEntry = -1 THEN T1.Price "
             sQuery = sQuery & "                  WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.Price"
             sQuery = sQuery & "                  ELSE T3.Price END [Price]"
@@ -199,6 +201,7 @@
             sQuery = sQuery & " 			LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM1 T1 ON T0.ItemCode = T1.ItemCode AND T1.PriceList = 1"
             sQuery = sQuery & " 			LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T2 ON T2.ListNum = T1.PriceList"
             sQuery = sQuery & " 			LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM9 T3 ON T3.ItemCode = T0.ItemCode AND T3.PriceList = 1 AND T0.SUoMEntry = T3.UomEntry"
+            sQuery = sQuery & "             LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T4 ON T4.ItemCode = T0.ItemCode "
             sQuery = sQuery & " 			WHERE T0.UpdateDate >= DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),- " & p_oCompDef.p_iIntegDays & ")"
             sQuery = sQuery & " 		   ) T1 ON T1.ItemCode = T0.ItemCode AND T1.ListNum = T0.PriceList "
 
