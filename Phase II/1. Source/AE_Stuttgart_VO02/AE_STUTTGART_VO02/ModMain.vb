@@ -250,10 +250,10 @@
 
             '************TENDER MODE SYNC CODE ON 21/09/2015 STARTS**************************
             Console.WriteLine("Tender sync starts", sFuncName)
-            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender(CreditCard,CardName,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT CreditCard,CardName,DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
-            sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OCRC T0 "
-            sQuery = sQuery & " WHERE T0.CreditCard NOT IN (SELECT CreditCard FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender) "
+            sQuery = "DELETE FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender"
+            sQuery = sQuery & " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender(TenderCode,TenderName,TenderType,OpenDrawer,OverTender,Remark,Rounding,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = sQuery & " SELECT Code,Name,U_AB_TenderType,U_AB_OpenDrawer,U_AB_OverTender,U_AB_Remark,U_AB_Rounding,DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
+            sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.[@AB_TENDER] T0 "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Tender sync Query exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
@@ -264,22 +264,6 @@
                 Console.WriteLine("Tender synchronization Successful", sFuncName)
             End If
 
-            '***************UPDATE TENDER***************
-            Console.WriteLine("Update Tender starts", sFuncName)
-            sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender"
-            sQuery = sQuery & " SET CreditCard = T1.CreditCard,SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE() "
-            sQuery = sQuery & " FROM AB_Tender T0 "
-            sQuery = sQuery & " INNER JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OCRC T1 ON T1.CreditCard = T0.CreditCard "
-            sQuery = sQuery & " WHERE T1.UpdateDate >= DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),- " & p_oCompDef.p_iIntegDays & ")"
-
-            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Tender update Query exec " & sQuery, sFuncName)
-            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
-
-            If ExecuteSQLQuery_DT(P_sConString, sQuery, sErrDesc) <> RTN_SUCCESS Then
-                Console.WriteLine("Error while updating Tender", sFuncName)
-            Else
-                Console.WriteLine("Tender update Successful", sFuncName)
-            End If
             '********************************************************************************
 
             'Console.WriteLine("Stock Checking Query :", sFuncName)
