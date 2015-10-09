@@ -177,6 +177,7 @@
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T4 ON T4.ItemCode = T0.ItemCode "
             sQuery = sQuery & " WHERE T0.ItemCode NOT IN (SELECT ItemCode FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList) "
             sQuery = sQuery & " AND (T1.PriceList = 1 OR T3.PriceList = 1) "
+            sQuery = sQuery & " ORDER BY T0.ItemCode,T4.WhsCode "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Price list Sync Query Exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
