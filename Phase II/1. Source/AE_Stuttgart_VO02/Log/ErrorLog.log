@@ -28,3 +28,11 @@
 [09-21-2015 10:43:51][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
 [09-21-2015 10:45:20][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
 [09-21-2015 14:25:19][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
+[10-13-2015 14:11:42][      ConnectToTargetCompany()] Connection to Database (Stuttgart LIVE) 
+ 	 Connection to license service failed; license service address is not valid, or license service is stopped (or does not respond)
+[10-13-2015 14:11:43][                        Main()] Connection to Database (Stuttgart LIVE) 
+ 	 Connection to license service failed; license service address is not valid, or license service is stopped (or does not respond)
+[10-13-2015 14:13:41][          ExecuteSQLQuery_DT()] Invalid column name 'ListName'.
+[10-13-2015 14:13:41][          ExecuteSQLQuery_DT()] Invalid column name 'ListName'.
+Invalid column name 'ListNum'.
+[10-13-2015 14:23:01][          ExecuteSQLQuery_DT()] Invalid column name 'ListNum'.
