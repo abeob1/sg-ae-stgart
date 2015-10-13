@@ -165,7 +165,16 @@
             '************PRICE LIST SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("Price List sync starts", sFuncName)
             sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList(WhsCode,ItemCode,PriceList,PriceListName,Currency,Price,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT T4.WhsCode,T0.ItemCode,T2.ListNum,T2.ListName ,T1.Currency,  "
+            sQuery = sQuery & " SELECT T5.WhsCode,T0.ItemCode,  "
+            sQuery = sQuery & " CASE WHEN T0.UgpEntry = -1 THEN T1.PriceList "
+            sQuery = sQuery & "      WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.PriceList "
+            sQuery = sQuery & "      ELSE T2.ListNum END [PriceList],"
+            sQuery = sQuery & " CASE WHEN T0.UgpEntry = -1 THEN T2.ListName "
+            sQuery = sQuery & "      WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T2.ListName "
+            sQuery = sQuery & "      ELSE T4.ListName END [PriceListName],"
+            sQuery = sQuery & " CASE WHEN T0.UgpEntry = -1 THEN T1.Currency "
+            sQuery = sQuery & "      WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.Currency "
+            sQuery = sQuery & "      ELSE T3.Currency END [Currency],"
             sQuery = sQuery & " CASE WHEN T0.UgpEntry = -1 THEN T1.Price "
             sQuery = sQuery & "      WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.Price "
             sQuery = sQuery & "      ELSE T3.Price END [Price],"
@@ -174,10 +183,11 @@
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM1 T1 ON T0.ItemCode = T1.ItemCode AND T1.PriceList = 1 "
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM9 T3 ON T0.ItemCode = T3.ItemCode AND T3.PriceList = 1 AND T0.SUoMEntry = T3.UomEntry "
             sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T2 ON T2.ListNum = T1.PriceList "
-            sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T4 ON T4.ItemCode = T0.ItemCode "
+            sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T4 ON T4.ListNum = T3.PriceList "
+            sQuery = sQuery & " LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T5 ON T5.ItemCode = T0.ItemCode "
             sQuery = sQuery & " WHERE T0.ItemCode NOT IN (SELECT ItemCode FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList) "
             sQuery = sQuery & " AND (T1.PriceList = 1 OR T3.PriceList = 1) "
-            sQuery = sQuery & " ORDER BY T0.ItemCode,T4.WhsCode "
+            sQuery = sQuery & " ORDER BY T0.ItemCode,T5.WhsCode "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Price list Sync Query Exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
@@ -191,10 +201,19 @@
             '***********PRICE LIST UPDATE*******************
             Console.WriteLine("Update Price list starts", sFuncName)
             sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList"
-            sQuery = sQuery & " SET PriceListName = T1.ListName,Currency = T1.Currency,Price = T1.Price,WhsCode = T1.WhsCode , "
+            sQuery = sQuery & " SET PriceList = T1.PriceList,PriceListName = T1.PriceListName,Currency = T1.Currency,Price = T1.Price,WhsCode = T1.WhsCode , "
             sQuery = sQuery & " SAPSyncDate = DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0),SAPSyncDateTime = GETDATE() "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_PriceList T0"
-            sQuery = sQuery & " INNER JOIN (SELECT T4.WhsCode,T0.ItemCode,T2.ListNum,T2.ListName ,T1.Currency,"
+            sQuery = sQuery & " INNER JOIN (SELECT T5.WhsCode,T0.ItemCode,"
+            sQuery = sQuery & "             CASE WHEN T0.UgpEntry = -1 THEN T1.PriceList "
+            sQuery = sQuery & "             WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.PriceList "
+            sQuery = sQuery & "             ELSE T2.ListNum END [PriceList],"
+            sQuery = sQuery & "             CASE WHEN T0.UgpEntry = -1 THEN T2.ListName "
+            sQuery = sQuery & "             WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T2.ListName "
+            sQuery = sQuery & "             ELSE T4.ListName END [PriceListName],"
+            sQuery = sQuery & "             CASE WHEN T0.UgpEntry = -1 THEN T1.Currency "
+            sQuery = sQuery & "             WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.Currency "
+            sQuery = sQuery & "             ELSE T3.Currency END [Currency],"
             sQuery = sQuery & " 			CASE WHEN T0.UgpEntry = -1 THEN T1.Price "
             sQuery = sQuery & "                  WHEN (T0.UgpEntry <> -1 AND T0.SUoMEntry =  T0.IUoMEntry) THEN T1.Price"
             sQuery = sQuery & "                  ELSE T3.Price END [Price]"
@@ -202,9 +221,10 @@
             sQuery = sQuery & " 			LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM1 T1 ON T0.ItemCode = T1.ItemCode AND T1.PriceList = 1"
             sQuery = sQuery & " 			LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T2 ON T2.ListNum = T1.PriceList"
             sQuery = sQuery & " 			LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.ITM9 T3 ON T3.ItemCode = T0.ItemCode AND T3.PriceList = 1 AND T0.SUoMEntry = T3.UomEntry"
-            sQuery = sQuery & "             LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T4 ON T4.ItemCode = T0.ItemCode "
+            sQuery = sQuery & "             LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T4 ON T4.ListNum = T3.PriceList "
+            sQuery = sQuery & "             LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T5 ON T5.ItemCode = T0.ItemCode "
             sQuery = sQuery & " 			WHERE T0.UpdateDate >= DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),- " & p_oCompDef.p_iIntegDays & ")"
-            sQuery = sQuery & " 		   ) T1 ON T1.ItemCode = T0.ItemCode AND T1.ListNum = T0.PriceList "
+            sQuery = sQuery & " 		   ) T1 ON T1.ItemCode = T0.ItemCode AND T1.PriceList = T0.PriceList "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Price list update Query Exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
