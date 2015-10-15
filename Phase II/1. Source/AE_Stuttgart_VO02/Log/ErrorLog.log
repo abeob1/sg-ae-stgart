@@ -1,38 +1,53 @@
-[09-21-2015 08:10:00][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:10:08][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:15:26][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:15:26][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:16:53][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:17:16][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:17:51][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:17:51][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:21:10][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:21:10][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:22:00][          AR_InvoiceCreation()] Invalid value  [INV1.BaseLine][line: 1]  [الرسالة 439-173]
-[09-21-2015 08:22:00][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:25:22][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:25:22][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:26:57][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
-[09-21-2015 08:26:57][          AR_InvoiceCreation()] External component has thrown an exception.
-[09-21-2015 08:26:57][     MarketingDocuments_Sync()] Object reference not set to an instance of an object.
-[09-21-2015 08:27:43][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:27:43][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:28:44][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
-[09-21-2015 08:30:20][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:30:20][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:32:39][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
-[09-21-2015 08:37:45][          AR_InvoiceCreation()] Base document card and target document card do not match.   [الرسالة 173-83]
-[09-21-2015 08:37:45][     MarketingDocuments_Sync()] Conversion from string "" to type 'Integer' is not valid.
-[09-21-2015 08:41:23][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
-[09-21-2015 08:55:38][          AR_InvoiceCreation()] No matching records found (ODBC -2028)
-[09-21-2015 10:43:51][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
-[09-21-2015 10:45:20][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
-[09-21-2015 14:25:19][          ExecuteSQLQuery_DT()] Invalid object name 'OITM'.
-[10-13-2015 14:11:42][      ConnectToTargetCompany()] Connection to Database (Stuttgart LIVE) 
- 	 Connection to license service failed; license service address is not valid, or license service is stopped (or does not respond)
-[10-13-2015 14:11:43][                        Main()] Connection to Database (Stuttgart LIVE) 
- 	 Connection to license service failed; license service address is not valid, or license service is stopped (or does not respond)
-[10-13-2015 14:13:41][          ExecuteSQLQuery_DT()] Invalid column name 'ListName'.
-[10-13-2015 14:13:41][          ExecuteSQLQuery_DT()] Invalid column name 'ListName'.
-Invalid column name 'ListNum'.
-[10-13-2015 14:23:01][          ExecuteSQLQuery_DT()] Invalid column name 'ListNum'.
+[10-15-2015 09:43:31][      ConnectToTargetCompany()] Connection to Database (Stuttgart LIVE) 
+ 	 Company version mismatch
+[10-15-2015 09:43:31][                        Main()] Connection to Database (Stuttgart LIVE) 
+ 	 Company version mismatch
+[10-15-2015 13:38:57][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:39:01][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:39:01][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:39:01][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:39:08][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.
+[10-15-2015 13:44:17][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:44:20][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:44:20][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:44:21][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:44:21][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.
+[10-15-2015 13:50:03][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:50:06][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:50:06][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:50:07][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:50:13][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.
+[10-15-2015 13:50:45][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:50:48][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:50:48][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:50:48][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:50:49][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.
+[10-15-2015 13:51:34][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:51:38][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:51:38][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:51:39][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:51:39][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.
+[10-15-2015 13:52:35][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:52:38][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:52:38][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:52:38][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:52:38][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.
+[10-15-2015 13:57:55][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-15-2015 13:57:59][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:57:59][          ExecuteSQLQuery_DT()] Invalid column name 'U_AB_EASIDept'.
+Invalid column name 'U_AB_POSSync'.
+[10-15-2015 13:57:59][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_EASIDEPT'.
+[10-15-2015 13:57:59][          ExecuteSQLQuery_DT()] Invalid object name 'STUTTGART.dbo.@AB_TENDER'.

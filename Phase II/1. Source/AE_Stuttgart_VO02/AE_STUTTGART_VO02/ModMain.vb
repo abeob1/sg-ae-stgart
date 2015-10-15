@@ -224,7 +224,7 @@
             sQuery = sQuery & "             LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OPLN T4 ON T4.ListNum = T3.PriceList "
             sQuery = sQuery & "             LEFT JOIN [" & p_oCompDef.p_sDataBaseName & "].dbo.OITW T5 ON T5.ItemCode = T0.ItemCode "
             sQuery = sQuery & " 			WHERE T0.UpdateDate >= DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),- " & p_oCompDef.p_iIntegDays & ")"
-            sQuery = sQuery & " 		   ) T1 ON T1.ItemCode = T0.ItemCode AND T1.PriceList = T0.PriceList "
+            sQuery = sQuery & " 		   ) T1 ON T1.ItemCode = T0.ItemCode AND T1.PriceList = T0.PriceList AND T1.WhsCode = T0.WhsCode"
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Price list update Query Exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
