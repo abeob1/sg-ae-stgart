@@ -116,7 +116,7 @@
             sQuery = sQuery & " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment(Code,Name,SAPSyncDate,SAPSyncDateTime)"
             sQuery = sQuery & " SELECT Code,Name,DATEADD(DAY, DATEDIFF(day, 0, GETDATE()), 0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.[@AB_EASIDEPT] T0 "
-            sQuery = sQuery & " WHERE T0.Code NOT IN (SELECT Code FROM  [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment) "
+            'sQuery = sQuery & " WHERE T0.Code NOT IN (SELECT Code FROM  [" & p_oCompDef.p_sIntDBName & "].dbo.AB_EASIDepartment) "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Item Group Sync Query Exec " & sQuery, sFuncName)
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
@@ -272,8 +272,8 @@
             '************TENDER MODE SYNC CODE ON 21/09/2015 STARTS**************************
             Console.WriteLine("Tender sync starts", sFuncName)
             sQuery = "DELETE FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender"
-            sQuery = sQuery & " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender(TenderCode,TenderName,TenderType,OpenDrawer,OverTender,Remark,Rounding,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT Code,Name,U_AB_TenderType,U_AB_OpenDrawer,U_AB_OverTender,U_AB_Remark,U_AB_Rounding,DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
+            sQuery = sQuery & " INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_Tender(TenderCode,TenderName,TenderType,OpenDrawer,OverTender,Remark,Rounding,POSSync,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = sQuery & " SELECT Code,Name,U_AB_TenderType,U_AB_OpenDrawer,U_AB_OverTender,U_AB_Remark,U_AB_Rounding,U_AB_POSSync,DATEADD(DAY,DATEDIFF(DAY,0,GETDATE()),0) [SAPSyncDate],GETDATE() [SAPSyncDateTime] "
             sQuery = sQuery & " FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.[@AB_TENDER] T0 "
 
             If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Tender sync Query exec " & sQuery, sFuncName)
