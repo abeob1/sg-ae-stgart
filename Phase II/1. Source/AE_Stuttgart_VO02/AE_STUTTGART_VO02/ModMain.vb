@@ -47,8 +47,8 @@
             '************MASTER DATA SYNC CODE ON 16/09/2015 STARTS**************************
             '************ITEM MASTER SYNC CODE ON 16/09/2015 STARTS**************************
             Console.WriteLine("Item Master sync Starts", sFuncName)
-            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster(ItemCode,ItemName,FrgnName,EASIGroup,EASIDept,ProductType,SalesUnitMsr,Barcode,Active,ServiceCharge,GST,AllowDiscount,AllowZero,POSPrinter,POSSync,SAPSyncDate,SAPSyncDateTime)"
-            sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T0.ItmsGrpCod,T0.U_AB_EASIDept, 'SS' [ProductType],T0.SalUnitMsr,T0.CodeBars,T0.validFor,"
+            sQuery = "INSERT INTO [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster(ItemCode,ItemName,FrgnName,EASIGroup,EASIDept,ProductType,SalesUnitMsr,Active,ServiceCharge,GST,AllowDiscount,AllowZero,POSPrinter,POSSync,SAPSyncDate,SAPSyncDateTime)"
+            sQuery = sQuery & " SELECT T0.ItemCode,T0.ItemName,T0.U_POSDesc,T0.ItmsGrpCod,T0.U_AB_EASIDept, 'SS' [ProductType],T0.SalUnitMsr,T0.validFor,"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoService,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoService],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNoGst,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNoGst],"
             sQuery = sQuery & " CASE WHEN ISNULL(T0.U_POSNonDisc,'FALSE') = 'FALSE' THEN 1 ELSE 0 END [U_POSNonDisc],"
@@ -108,6 +108,29 @@
                 Console.WriteLine("Error while updating item master Active Status", sFuncName)
             Else
                 Console.WriteLine("Item master Active Status update Successful", sFuncName)
+            End If
+
+            ''********************UPDATE CODE FOR UPDATING BARCODE FOR ITEM CODE ON 29/10/2015*********************
+            sQuery = "UPDATE [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster "
+            sQuery = sQuery & " SET Barcode = T1.Barcode, Barcode2 = T1.Barcode2, Barcode3 = T1.Barcode3 "
+            sQuery = sQuery & " FROM [" & p_oCompDef.p_sIntDBName & "].dbo.AB_ItemMaster T0 "
+            sQuery = sQuery & " INNER JOIN (SELECT ItemCode,"
+            sQuery = sQuery & "             MAX(CASE WHEN BcdLineNum = 1 THEN BcdCode ELSE NULL END) AS Barcode, "
+            sQuery = sQuery & "             MAX(CASE WHEN BcdLineNum = 2 THEN BcdCode ELSE NULL END) AS Barcode2, "
+            sQuery = sQuery & "             MAX(CASE WHEN BcdLineNum = 3 THEN BcdCode ELSE NULL END) AS Barcode3 "
+            sQuery = sQuery & "             FROM (SELECT ItemCode,BcdCode,ROW_NUMBER() OVER(PARTITION BY ItemCode ORDER BY BcdCode) AS BcdLineNum"
+            sQuery = sQuery & "                   FROM [" & p_oCompDef.p_sDataBaseName & "].dbo.OBCD"
+            sQuery = sQuery & "                  ) T10"
+            sQuery = sQuery & "             WHERE BcdLineNum <= 3"
+            sQuery = sQuery & "             GROUP BY ItemCode) T1 ON T1.ItemCode = T0.ItemCode "
+
+            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("BarCode update query for item master " & sQuery, sFuncName)
+            If p_iDebugMode = DEBUG_ON Then Call WriteToLogFile_Debug("Calling ExecuteSQLQuery_DT()", sFuncName)
+
+            If ExecuteSQLQuery_DT(P_sConString, sQuery, sErrDesc) <> RTN_SUCCESS Then
+                Console.WriteLine("Error while updating item master barcode", sFuncName)
+            Else
+                Console.WriteLine("Item master barcode update Successful", sFuncName)
             End If
 
             '************EASI DEPARTMENT SYNC CODE ON 16/09/2015 STARTS**************************
