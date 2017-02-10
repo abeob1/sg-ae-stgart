@@ -1,0 +1,2 @@
+[10-27-2015 12:24:51][          ExecuteSQLQuery_DT()] Database 'Stuttgart LIVE' cannot be opened. It is in the middle of a restore.
+[10-29-2015 07:57:48][          ExecuteSQLQuery_DT()] The multi-part identifier "T0.ItemCode" could not be bound.
